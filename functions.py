@@ -64,7 +64,25 @@ def create_hypercube(s, d):
                             for n in range(s):
                                 arr[i][j][k][l][m].append([i+1, j+1, k+1, l+1, m+1, n+1])
     return arr
-    
+    [1], [0]
+def find_highest_expval(x, chi): # x: a single possible dice throw, sorted in descending order || chi[y] gives the value of saving y amount of dice
+        highest_expval = 3.5 # bad solution, ik, but it works
+
+        saved = [] # saved[y] gives the value of saving y amount of dice
+        for i in range(len(x)+1):
+            sum = 0
+            for j in range(i):
+                sum += x[j]
+            saved.append(sum)
+
+        for i in range(1, len(x)): # now we want test which combination of  saved[a] + chi[b], (a + b = len(x)-1), (a>1), gives the highest value
+
+            expval = saved[i] + chi[len(x)-i]
+            if expval > highest_expval:
+                highest_expval = expval 
+        
+        return highest_expval
+
 
 def backprop(hypercubes, s):
     chi = [0]
@@ -73,7 +91,7 @@ def backprop(hypercubes, s):
         if i == 0: # 1 dice
             sum = 0
             for a in hypercube:
-                sum += a[0]
+                sum += find_highest_expval(a, chi)
             sum /= (s**(i+1))
             chi.append(sum)
         elif i == 1: # 2 dice
@@ -81,13 +99,7 @@ def backprop(hypercubes, s):
             for b in hypercube:
                 for a in b:
                     a.sort(reverse=True)
-                    x = a
-                    sum += x[0]
-                    if x[1] > (chi[1]-chi[0]):
-                        sum += x[1]
-                        print(x)
-                    else: 
-                        sum += chi[1]
+                    sum += find_highest_expval(a, chi)
             sum /= (s**(i+1))
             chi.append(sum)
         elif i == 2: # 3 dice
@@ -96,16 +108,7 @@ def backprop(hypercubes, s):
                 for b in c:
                     for a in b:
                         a.sort(reverse=True)
-                        x = a
-                        sum += x[0]
-                        if x[1] > (chi[2]-chi[1]):
-                            sum += x[1]
-                            if x[2] > (chi[1]-chi[0]):
-                                sum += x[2]
-                            else:
-                                sum += chi[1]
-                        else:
-                            sum += chi[2]
+                        sum += find_highest_expval(a, chi)
             sum /= (s**(i+1))
             chi.append(sum)
         elif i == 3: # 4 dice
@@ -114,20 +117,7 @@ def backprop(hypercubes, s):
                     for b in c:
                         for a in b:
                             a.sort(reverse=True)
-                            x = a
-                            sum += x[0]
-                            if x[1] > (chi[3] - chi[2]):
-                                sum += x[1]
-                                if x[2] > (chi[2] - chi[1]):
-                                    sum += x[2]
-                                    if x[3] > (chi[1] - chi[0]):
-                                        sum += x[3]
-                                    else:
-                                        sum += chi[1]
-                                else:
-                                    sum += chi[2]
-                            else:
-                                sum += chi[3]
+                            sum += find_highest_expval(a, chi)
             sum /= (s**(i+1))
             chi.append(sum)
         elif i == 4: # 5 dice
@@ -137,24 +127,7 @@ def backprop(hypercubes, s):
                         for b in c:
                             for a in b:
                                 a.sort(reverse=True)
-                                x = a
-                                sum += x[0]
-                                if x[1] > (chi[4] - chi[3]):
-                                    sum += x[1]
-                                    if x[2] > (chi[3] - chi[2]):
-                                        sum += x[2]
-                                        if x[3] > (chi[2] - chi[1]):
-                                            sum += x[3]
-                                            if x[4] > (chi[1] - chi[0]):
-                                                sum += x[4]
-                                            else:
-                                                sum += chi[1]
-                                        else:
-                                            sum += chi[2]
-                                    else:
-                                        sum += chi[3]
-                                else:
-                                    sum += chi[4]
+                                sum += find_highest_expval(a, chi)
             sum /= (s**(i+1))
             chi.append(sum)
         else: # 6 dice
@@ -165,40 +138,8 @@ def backprop(hypercubes, s):
                             for b in c:
                                 for a in b:
                                     a.sort(reverse=True)
-                                    x = a
-                                    sum += x[0]
-                                    if x[1] > (chi[5] - chi[4]):
-                                        sum += x[1]
-                                        if x[2] > (chi[4] - chi[3]):
-                                            sum += x[2]
-                                            if x[3] > (chi[3] - chi[2]):
-                                                sum += x[3]
-                                                if x[4] > (chi[2] - chi[1]):
-                                                    sum += x[4]
-                                                    if x[5] > (chi[1] - chi[0]):
-                                                        sum += x[5]
-                                                    else:
-                                                        sum += chi[1]
-                                                else:
-                                                    sum += chi[2]
-                                            else:
-                                                sum += chi[3]
-                                        else:
-                                            sum += chi[4]
-                                    else:
-                                        sum += chi[5]
+                                    sum += find_highest_expval(a, chi)
             sum /= (s**(i+1))
             chi.append(sum)
     return(chi)
-
-    def find_highest_expval(x, chi): # x: a single possible dice throw
-        highest_expval = 0
-
-        for i in range(len(x)):
-            sum = 0
-            for j in range(i):
-                sum += x[j]
-            expval = x[0] + sum + chi[len[x]-i]
-            if expval > highest_expval:
-                highest_expval = expval
 
