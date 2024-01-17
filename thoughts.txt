@@ -1,0 +1,44 @@
+Decide the optimal strategy to win trettio. 
+
+NEW HYPE BACKPROP ALGORITHM: (OLD, DIDNT GIVE OPTIMAL STRATEGY)
+
+Start with d = 1. Assume ξ0 = 0.
+
+a = [3, 2, 1]
+
+
+loop over x
+    if x > ξ0:
+        write over x with x
+
+found out ξ1 = 3.5 wow could have guessed
+
+d = 2 
+
+loop over a = [x, y]
+    add a[0]
+    if a[1] > (ξ1-ξ0) #we save two dice
+        add a[1]
+    else 
+        add ξ1
+
+d = 3
+loop over a = [x, y, z]
+    add a[0]
+    if a[1] > (ξ2-ξ1) #we save atleast two dice
+        add a[1]
+        if a[2] > (ξ1-ξ0) #we three dice
+            add a[2]
+
+
+d = 4
+looop over arr = [a, b, c, d]
+    add a[0]
+    if a[1] > (ξ3-ξ2) #we save atleast two dice
+        add a[1]
+        if a[2] > (ξ2-ξ1) #we save atleast three dice
+            add a[2]
+            if a[3] > (ξ1-ξ0) #we save three dice
+                add a[3]
+
+NEW STRATEGY (wip):
