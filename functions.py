@@ -59,7 +59,7 @@ def create_hypercube(s, d):
     return arr
 
 def find_highest_expval(x, xi): # x: a single possible dice throw, sorted in descending order || xi[y] gives the value of saving y amount of dice
-        highest_expval = 3.5
+        highest_expval = 0
 
         saved = [] # saved[y] gives the value of saving y amount of dice
         for i in range(len(x)+1):
@@ -67,7 +67,6 @@ def find_highest_expval(x, xi): # x: a single possible dice throw, sorted in des
             for j in range(i):
                 sum += x[j]
             saved.append(sum)
-
 
         for i in range(1, len(x)+1): # now we want test which combination of (a, b) gives the highest value for: saved[a] + xi[b], (a + b = len(x)-1), (a>1).
             
